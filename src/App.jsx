@@ -33,18 +33,18 @@ const projetos = [
       "[RN06] Checking student financial integrity...",
       "[OK] System ready on port 8080."
     ],
-    img: "https://placehold.co/600x400/2a2a2a/FFF?text=Sistema+de+Academia",
+    img: "/prints/academia-capa.png", // Salve suas imagens na pasta "public/prints/" do projeto
     gallery: [
-      "https://placehold.co/600x400/2a2a2a/FFF?text=Dashboard+Principal",
-      "https://placehold.co/600x400/2a2a2a/FFF?text=Cadastro+de+Alunos",
-      "https://placehold.co/600x400/2a2a2a/FFF?text=Gestao+de+Treinos"
+      "/prints/academia-tela1.png", // Print 1 em execução
+      "/prints/academia-tela2.png", // Print 2 em execução
+      "/prints/academia-tela3.png"  // Print 3 em execução
     ]
   },
   {
     id: 2,
-    titulo: "Controle de Ponto",
-    status: "em-desenvolvimento",
-    tag: "Em Desenvolvimento",
+    titulo: "Ponto Certo",
+    status: "concluido",
+    tag: "Concluído",
     desc: "Sistema híbrido SQL/Pandas para registro imutável de horários (RN08).",
     detalhes: "Focado na imutabilidade do registro de ponto, este sistema utiliza Pandas para processamento de grandes volumes de dados e SQL para persistência segura.",
     regras: [
@@ -64,11 +64,11 @@ const projetos = [
       "> [RN08] Verifying immutability hashes...",
       "> Data sync completed successfully."
     ],
-    img: "https://placehold.co/600x400/1e3a8a/FFF?text=Controle+de+Ponto",
+    img: "/prints/Ponto-capa.png",
     gallery: [
-      "https://placehold.co/600x400/1e3a8a/FFF?text=Visao+Geral+Horas",
-      "https://placehold.co/600x400/1e3a8a/FFF?text=Registro+de+Ponto",
-      "https://placehold.co/600x400/1e3a8a/FFF?text=Relatorio+de+Inconsistencias"
+      "/prints/Ponto-tela1.png",
+      "/prints/Ponto-tela2.png",
+      "/prints/Ponto-tela3.png"
     ]
   },
   {
@@ -98,11 +98,11 @@ const projetos = [
       "[REQ] POST /api/v1/users (Invalid Data)",
       "[RES] 400 Bad Request { error: 'RN10: Invalid email format' }"
     ],
-    img: "https://placehold.co/600x400/047857/FFF?text=API+RESTful",
+    img: "/prints/api-capa.png",
     gallery: [
-      "https://placehold.co/600x400/047857/FFF?text=Swagger+Documentation",
-      "https://placehold.co/600x400/047857/FFF?text=JSON+Response+Example",
-      "https://placehold.co/600x400/047857/FFF?text=Database+Schema"
+      "/prints/api-tela1.png",
+      "/prints/api-tela2.png",
+      "/prints/api-tela3.png"
     ]
   }
 ];
@@ -131,35 +131,6 @@ const currentStudy = {
   status: "📖 Lendo",
   title: "Arquitetura Limpa",
   author: "Robert C. Martin"
-};
-
-const mockCode = {
-  "Sistema de Academia": `// StudentController.java
-@PostMapping("/alunos")
-public ResponseEntity<AlunoDTO> create(@RequestBody @Valid AlunoDTO dto) {
-    if (repository.existsByCpf(dto.cpf())) {
-        throw new BusinessException("CPF já cadastrado");
-    }
-    Aluno aluno = service.save(dto.toEntity());
-    return ResponseEntity.ok(new AlunoDTO(aluno));
-}`,
-  "Controle de Ponto": `# process_points.py
-def process_records(df):
-    df['timestamp'] = pd.to_datetime(df['raw_time'])
-    # Vectorized operation for speed
-    df['is_late'] = df['timestamp'].dt.hour > 9
-    
-    # Immutability check (RN08)
-    df['hash'] = df.apply(lambda x: generate_hash(x), axis=1)
-    return df`,
-  "API RESTful": `// GlobalExceptionHandler.java
-@ExceptionHandler(EntityNotFoundException.class)
-public ProblemDetail handleNotFound(EntityNotFoundException e) {
-    ProblemDetail problem = ProblemDetail.forStatus(404);
-    problem.setTitle("Recurso não encontrado");
-    problem.setDetail(e.getMessage());
-    return problem;
-}`
 };
 
 function DemoModal({ project, onClose }) {
@@ -196,13 +167,12 @@ function DemoModal({ project, onClose }) {
           <span className="window-btn min-btn"></span>
           <span className="window-btn max-btn"></span>
           <span style={{marginLeft: '10px', color: '#aaa', fontSize: '12px'}}>
-            {activeTab === 'terminal' ? 'terminal' : activeTab === 'system' ? 'sys' : 'code'} — {project.titulo}
+            {activeTab === 'terminal' ? 'terminal' : 'sys'} — {project.titulo}
           </span>
           {status === 'running' && (
             <div className="demo-tabs">
               <button className={`tab-btn ${activeTab === 'terminal' ? 'active' : ''}`} onClick={() => setActiveTab('terminal')}>Terminal</button>
               <button className={`tab-btn ${activeTab === 'system' ? 'active' : ''}`} onClick={() => setActiveTab('system')}>System</button>
-              <button className={`tab-btn ${activeTab === 'code' ? 'active' : ''}`} onClick={() => setActiveTab('code')}>Code</button>
             </div>
           )}
         </div>
@@ -222,7 +192,15 @@ function DemoModal({ project, onClose }) {
 
         {activeTab === 'system' && (
           <div className="demo-screen">
-            <img src={images[currentSlide]} alt="Sistema Rodando" />
+            <img 
+              src={images[currentSlide]} 
+              alt="Sistema Rodando" 
+              onError={(e) => { 
+                const missingFile = images[currentSlide].split('/').pop();
+                e.target.src = `https://placehold.co/800x600/1e1e1e/FF5F56?text=Falta+o+arquivo:\n${missingFile}`; 
+                console.error("ERRO: O navegador não encontrou a imagem no caminho ->", images[currentSlide]); 
+              }}
+            />
             
             {images.length > 1 && (
               <>
@@ -243,12 +221,6 @@ function DemoModal({ project, onClose }) {
             <div className="system-overlay">
               <div className="system-badge">🟢 Sistema Online</div>
             </div>
-          </div>
-        )}
-
-        {activeTab === 'code' && (
-          <div className="demo-code">
-            <pre><code>{mockCode[project.titulo] || "// Código não disponível para visualização rápida."}</code></pre>
           </div>
         )}
       </div>
@@ -388,6 +360,21 @@ function Home({ theme, toggleTheme }) {
           </div>
         </section>
 
+        <section id="sobre">
+          <h3>Sobre Mim</h3>
+          <div className="card" style={{ lineHeight: '1.8', fontSize: '1.1rem' }}>
+            <p>
+              Olá! Minha jornada na programação começou em 2021 no <strong>Instituto Federal do Sudeste de Minas Gerais</strong>. Desde então, me apaixonei por resolver problemas através do código e hoje tenho focado em desenvolvimento Web, explorando ecossistemas como <strong>Python, Java e React</strong>.
+            </p>
+            <p>
+              Me considero um desenvolvedor bastante versátil: não tenho uma preferência estrita por uma única stack, o que me permite me <strong>adaptar rapidamente a qualquer ambiente</strong> ou novo desafio. No momento, o meu maior objetivo é conquistar a minha <strong>primeira oportunidade como Desenvolvedor Júnior ou Estagiário</strong> para poder contribuir com projetos reais e continuar evoluindo.
+            </p>
+            <p>
+              E para quebrar o gelo: quando não estou programando, gosto de aproveitar meu tempo livre jogando videogame, lendo livros de fantasia, tocando violão, dando passeios e valorizando bons momentos com a minha família! 🎮🎸📚
+            </p>
+          </div>
+        </section>
+
         <section id="skills">
           <h3>Stack Tecnológica</h3>
           <div className="skills-container">
@@ -446,7 +433,16 @@ function Home({ theme, toggleTheme }) {
             {filteredProjects.map(proj => (
               <div key={proj.id} className="card">
                 <span className={`status ${proj.status}`}>{proj.tag}</span>
-                <img src={proj.img} alt={proj.titulo} className="project-mockup" />
+                <img 
+                  src={proj.img} 
+                  alt={proj.titulo} 
+                  className="project-mockup" 
+                  onError={(e) => { 
+                    const missingFile = proj.img.split('/').pop();
+                    e.target.src = `https://placehold.co/600x400/1e1e1e/FF5F56?text=Falta+a+Capa:\n${missingFile}`; 
+                    console.error("ERRO: Capa não encontrada no caminho ->", proj.img); 
+                  }}
+                />
                 <h4>{proj.titulo}</h4>
                 <p>{proj.desc}</p>
                 <div className="card-footer">
