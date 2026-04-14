@@ -9,7 +9,7 @@ const projetos = [
     titulo: "Sistema de Academia",
     status: "concluido",
     tag: "Concluído",
-    desc: "Gestão de alunos e treinos. Integração com API Java e validação de regras (RN06).",
+    desc: "Gestão de alunos e treinos. Integração com API Java e validação de regras (RN06).  Nota: O repositorio não está visivel por estar privado",
     detalhes: "O Sistema de Academia foi desenvolvido para resolver o problema de integridade de dados em academias de bairro. A principal regra de negócio (RN06) impede a exclusão de alunos com mensalidades pendentes, garantindo consistência financeira.",
     regras: [
       "RN04: Arquitetura Separada (API REST em Java + Frontend React).",
@@ -46,7 +46,7 @@ const projetos = [
     status: "concluido",
     tag: "Concluído",
     desc: "Sistema híbrido SQL/Pandas para registro imutável de horários (RN08).",
-    detalhes: "Focado na imutabilidade do registro de ponto, este sistema utiliza Pandas para processamento de grandes volumes de dados e SQL para persistência segura.",
+    detalhes: "Focado na imutabilidade do registro de ponto, este sistema utiliza Pandas para processamento de grandes volumes de dados e SQL para persistência segura. Nota: Os dados referentes aos usuários foram substituídos por dados sintéticos para preservar as informações sensíveis originais.",
     regras: [
       "RN07: Dualidade de Dados (Leitura híbrida SQL/Excel).",
       "RN08: Imutabilidade (Horário original nunca é sobrescrito, apenas retificado)."
@@ -54,7 +54,7 @@ const projetos = [
     stack: ["React", "Python", "Pandas", "SQL"],
     complexity: { logic: 5, ui: 2 },
     lessons: "O processamento inicial com laços 'for' era lento (10s). Aprendi a vetorizar operações com Pandas, reduzindo o tempo para 0.2s.",
-    repo: "https://github.com/LucaSilva0208/controle-ponto-AMAC-python",
+    repo: "https://github.com/LucaSilva0208/Ponto-Certo.git",
     demoLogs: [
       "python main.py --sync",
       "> Loading configuration...",
@@ -77,7 +77,7 @@ const projetos = [
     status: "refatorando",
     tag: "Spring Boot",
     desc: "Padronização de endpoints e tratamento de erros amigáveis (RN10).",
-    detalhes: "Uma API modelo que implementa as melhores práticas de REST, incluindo tratamento global de exceções e padronização de respostas JSON.",
+    detalhes: "Uma API modelo que implementa as melhores práticas de REST, incluindo tratamento global de exceções e padronização de respostas JSON. Nota: O repositorio não está visivel por estar privado",
     regras: [
       "RN09: Padronização REST (Verbos HTTP corretos).",
       "RN10: Tratamento de Erros (Mensagens amigáveis ao invés de stack traces)."
@@ -89,7 +89,7 @@ const projetos = [
       { method: "GET", path: "/api/users/{id}", desc: "Busca usuário por ID" },
       { method: "DELETE", path: "/api/users/{id}", desc: "Remove usuário (Soft Delete)" }
     ],
-    repo: "https://github.com/LucaSilva0208/Controle-de-Pontos-Amac-2.0",
+    repo: "https://github.com/rafaelafgomes/saapi.git",
     demoLogs: [
       "mvn spring-boot:run",
       "[INFO] Tomcat started on port 8080",
@@ -120,7 +120,7 @@ const projetos = [
     stack: ["Node.js", "Express", "ExcelJS", "JavaScript", "HTML/CSS"],
     complexity: { logic: 4, ui: 2 },
     lessons: "Implementar streaming de leitura/escrita me ensinou muito sobre o gerenciamento de memória em ambientes limitados (Render). Processar os dados linha a linha (em vez de carregar tudo na RAM) evitou crashes e tornou a aplicação resiliente.",
-    repo: "https://github.com/SeuUsuario/recuperador-excel", // Lembre-se de colocar o seu link real aqui!
+    repo: "https://github.com/LucaSilva0208/Recuperador-de-Excel.git", // Lembre-se de colocar o seu link real aqui!
     liveLink: "https://recuperador-de-excel.onrender.com",
     demoLogs: [
       "> Inicializando resgate de arquivo via Node.js...",
@@ -160,7 +160,8 @@ const timelineData = [
 const achievements = [
   { id: 1, title: "Mestre do C", icon: "🏆", desc: "Dominou ponteiros e memória." },
   { id: 2, title: "Explorador de Pandas", icon: "🐼", desc: "Manipulação de dados massiva." },
-  { id: 3, title: "Iniciante Spring", icon: "🍃", desc: "Primeira API RESTful em produção." }
+  { id: 3, title: "Iniciante Spring", icon: "🍃", desc: "Primeira API RESTful em produção." },
+  { id: 4, title: "Salvador de Dados", icon: "🚑", desc: "Resgate de planilhas e manipulação via streams." }
 ];
 
 const currentStudy = {
@@ -288,6 +289,11 @@ function Footer() {
 function ProjectDetails({ theme, toggleTheme }) {
   const { id } = useParams();
   const [showDemo, setShowDemo] = useState(false);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [id]);
+
   const projeto = projetos.find(p => p.id === Number(id));
 
   if (!projeto) {
@@ -438,16 +444,30 @@ function Home({ theme, toggleTheme }) {
 
         <section id="sobre">
           <h3>Sobre Mim</h3>
-          <div className="card" style={{ lineHeight: '1.8', fontSize: '1.1rem' }}>
-            <p>
-              Olá! Minha jornada na programação começou em 2021 no <strong>Instituto Federal do Sudeste de Minas Gerais</strong>. Desde então, me apaixonei por resolver problemas através do código e hoje tenho focado em desenvolvimento Web, explorando ecossistemas como <strong>Python, Java e React</strong>.
-            </p>
-            <p>
-              Me considero um desenvolvedor bastante versátil: não tenho uma preferência estrita por uma única stack, o que me permite me <strong>adaptar rapidamente a qualquer ambiente</strong> ou novo desafio. No momento, o meu maior objetivo é conquistar a minha <strong>primeira oportunidade como Desenvolvedor Júnior ou Estagiário</strong> para poder contribuir com projetos reais e continuar evoluindo.
-            </p>
-            <p>
-              E para quebrar o gelo: quando não estou programando, gosto de aproveitar meu tempo livre jogando videogame, lendo livros de fantasia, tocando violão, dando passeios e valorizando bons momentos com a minha família! 🎮🎸📚
-            </p>
+          <div className="card about-card">
+            <div className="about-image-container">
+              <img 
+                src="/prints/cartao-fundo.png" 
+                alt="Apresentação Lucas Silva" 
+                className="about-presentation-img"
+              />
+            </div>
+            <div className="about-text">
+              <p>
+                Olá! Minha jornada na programação começou em 2021 no <strong>Instituto Federal do Sudeste de Minas Gerais</strong>. Desde então, me apaixonei por resolver problemas através do código e hoje tenho focado em desenvolvimento Web, explorando ecossistemas como <strong>Python, Java e React</strong>.
+              </p>
+              <p>
+                Me considero um desenvolvedor bastante versátil: não tenho uma preferência estrita por uma única stack, o que me permite me <strong>adaptar rapidamente a qualquer ambiente</strong> ou novo desafio. No momento, o meu maior objetivo é conquistar a minha <strong>primeira oportunidade como Desenvolvedor Júnior ou Estagiário</strong> para poder contribuir com projetos reais e continuar evoluindo.
+              </p>
+              <p>
+                E para quebrar o gelo: quando não estou programando, gosto de aproveitar meu tempo livre jogando videogame, lendo livros de fantasia, tocando violão, dando passeios e valorizando bons momentos com a minha família! 🎮🎸📚
+              </p>
+              <div style={{ marginTop: '25px' }}>
+                <a href="/prints/cartao-com-dados.png" download="Lucas_Silva_Cartao_Apresentacao.png" className="demo-btn" style={{ display: 'inline-block' }}>
+                  📥 Baixar Cartão de Visitas
+                </a>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -791,6 +811,17 @@ function App() {
 
         /* Demo Code */
         .demo-code { padding: 20px; background: #1e1e1e; color: #d4d4d4; overflow: auto; flex: 1; text-align: left; font-family: 'Consolas', 'Monaco', monospace; font-size: 0.9rem; }
+
+        /* Sobre Mim Card */
+        .about-card { padding: 0; display: flex; flex-direction: column; overflow: hidden; }
+        .about-image-container { width: 100%; height: 250px; border-bottom: 1px solid var(--border-color); }
+        .about-presentation-img { width: 100%; height: 100%; object-fit: cover; }
+        .about-text { padding: 30px; font-size: 1.1rem; line-height: 1.8; }
+        @media(min-width: 768px) {
+          .about-card { flex-direction: row; }
+          .about-image-container { width: 40%; height: auto; border-bottom: none; border-right: 1px solid var(--border-color); }
+          .about-text { width: 60%; padding: 40px; }
+        }
 
         /* Novos Estilos */
         /* Filtro */
