@@ -104,6 +104,38 @@ const projetos = [
       "/prints/api-tela2.png",
       "/prints/api-tela3.png"
     ]
+  },
+  {
+    id: 4,
+    titulo: "Recuperador de Excel",
+    status: "concluido",
+    tag: "Ferramenta",
+    desc: "Aplicação de resgate de dados (Data Rescue) para planilhas .xlsx corrompidas ou protegidas.",
+    detalhes: "Ferramenta focada em baixo consumo de memória utilizando Node.js e ExcelJS com streaming de leitura/escrita. O sistema possui sanitização automatizada para remover caracteres ASCII que impedem a abertura do XML e conta com uma rigorosa política Zero-Persistence.",
+    regras: [
+      "RN11: Suporte exclusivo para extensão .xlsx com limite de 25MB.",
+      "RN12: Bypass automático de proteção de planilha/pasta de trabalho.",
+      "RN13: Política Zero-Persistence (arquivos originais e recuperados são excluídos imediatamente após o processo)."
+    ],
+    stack: ["Node.js", "Express", "ExcelJS", "JavaScript", "HTML/CSS"],
+    complexity: { logic: 4, ui: 2 },
+    lessons: "Implementar streaming de leitura/escrita me ensinou muito sobre o gerenciamento de memória em ambientes limitados (Render). Processar os dados linha a linha (em vez de carregar tudo na RAM) evitou crashes e tornou a aplicação resiliente.",
+    repo: "https://github.com/SeuUsuario/recuperador-excel", // Lembre-se de colocar o seu link real aqui!
+    liveLink: "https://recuperador-de-excel.onrender.com",
+    demoLogs: [
+      "> Inicializando resgate de arquivo via Node.js...",
+      "> Recebendo upload de arquivo protegido (18MB)...",
+      "> [OK] Validação .xlsx e limites de tamanho aprovados.",
+      "> Iniciando processamento de resgate via stream (baixo uso de RAM)...",
+      "> [WARN] Sanitizando caracteres de controle ASCII...",
+      "> [OK] Bypass de proteção executado com sucesso.",
+      "> Sucesso! Planilha pronta. Excluindo temporários (Zero-Persistence)..."
+    ],
+    img: "/prints/excel-execucao.png",
+    gallery: [
+      "/prints/excel-codigo.png",
+      "/prints/excel-execucao.png"
+    ]
   }
 ];
 
@@ -112,13 +144,17 @@ const skills = [
   { nome: "Java", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg", classe: "java-skill", tooltip: "Praticando POO e em breve APIs REST" },
   { nome: "Spring", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg", classe: "spring-skill" },
   { nome: "React", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg", classe: "react-skill" },
-  { nome: "Python", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg", classe: "python-skill" }
+  { nome: "Python", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg", classe: "python-skill" },
+  { nome: "JavaScript", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg", classe: "js-skill" },
+  { nome: "Node.js", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg", classe: "node-skill" },
+  { nome: "HTML5", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg", classe: "html-skill" }
 ];
 
 const timelineData = [
-  { year: "2023", title: "Fundamentos", desc: "Lógica e Estrutura de Dados em C." },
-  { year: "2024", title: "Automação", desc: "Scripts Python (Projeto Ponto AMAC)." },
-  { year: "2025", title: "Fullstack", desc: "Especialização em React e Spring Boot." }
+  { year: "2021", title: "Fundamentos", desc: "Lógica e Estrutura de Dados em C." },
+  { year: "2022", title: "Fundamentos", desc: "Orientação a objeto em java."},
+  { year: "2025", title: "Fullstack", desc: "Especialização em React e Spring Boot." },
+  { year: "2026", title: "Automação", desc: "Scripts Python (Projeto Ponto AMAC)." }
 ];
 
 const achievements = [
@@ -228,6 +264,27 @@ function DemoModal({ project, onClose }) {
   );
 }
 
+function Footer() {
+  return (
+    <footer className="site-footer">
+      <div className="footer-content">
+        <div className="footer-info">
+          <p>&copy; {new Date().getFullYear()} Lucas Silva. Desenvolvedor Fullstack.</p>
+          <p className="built-with">Construído com React & CSS Nativo</p>
+        </div>
+        <div className="footer-links">
+          <a href="https://github.com/LucaSilva0208" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a href="https://www.linkedin.com/in/lucas-silva-6a18b037b" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <a href="mailto:l.silvapjf@gmail.com">Contato</a>
+        </div>
+      </div>
+      <div className="api-status">
+        <span>System Status: <strong>Online</strong> 🟢</span>
+      </div>
+    </footer>
+  );
+}
+
 function ProjectDetails({ theme, toggleTheme }) {
   const { id } = useParams();
   const [showDemo, setShowDemo] = useState(false);
@@ -267,8 +324,14 @@ function ProjectDetails({ theme, toggleTheme }) {
           <h3>Ficha Técnica</h3>
           <p><strong>Status:</strong> {projeto.tag}</p>
           <p><strong>Resumo:</strong> {projeto.desc}</p>
-          <a href={projeto.repo} target="_blank" rel="noopener noreferrer" className="repo-link">Ver Código no GitHub &rarr;</a>
           
+          <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginBottom: '10px' }}>
+            <a href={projeto.repo} target="_blank" rel="noopener noreferrer" className="repo-link">Ver Código no GitHub &rarr;</a>
+            {projeto.liveLink && (
+              <a href={projeto.liveLink} target="_blank" rel="noopener noreferrer" className="repo-link" style={{ backgroundColor: '#646cff', color: '#fff', borderColor: '#646cff' }}>Acessar Aplicação &rarr;</a>
+            )}
+          </div>
+
           <div className="complexity-section">
             <div className="complexity-row">
               <span>Lógica de Dados:</span> {renderComplexity(projeto.complexity.logic)}
@@ -308,6 +371,9 @@ function ProjectDetails({ theme, toggleTheme }) {
 
           <div style={{ marginTop: '20px', display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
             <a href={projeto.repo} target="_blank" rel="noopener noreferrer" className="repo-link" style={{ display: 'inline-block' }}>Ver Código no GitHub &rarr;</a>
+            {projeto.liveLink && (
+              <a href={projeto.liveLink} target="_blank" rel="noopener noreferrer" className="repo-link" style={{ display: 'inline-block', backgroundColor: '#646cff', color: '#fff', borderColor: '#646cff' }}>Acessar Aplicação &rarr;</a>
+            )}
             <button className="demo-btn" onClick={() => setShowDemo(true)}>
               ▶ Executar Demo
             </button>
@@ -317,6 +383,7 @@ function ProjectDetails({ theme, toggleTheme }) {
         {showDemo && (
           <DemoModal project={projeto} onClose={() => setShowDemo(false)} />
         )}
+        <Footer />
       </main>
     </div>
   );
@@ -330,7 +397,16 @@ function Home({ theme, toggleTheme }) {
     ? projetos 
     : projetos.filter(p => p.stack.some(s => s.toLowerCase().includes(filter.toLowerCase())));
 
-  const filters = ['Todos', 'Java', 'React', 'Python'];
+  const filters = ['Todos', 'Java', 'React', 'Python', 'JavaScript', 'Node.js'];
+
+  const handleSkillClick = (skillName) => {
+    // Verifica se a tecnologia clicada possui um filtro correspondente nos projetos
+    const filterMatch = filters.find(f => f.toLowerCase() === skillName.toLowerCase());
+    if (filterMatch) {
+      setFilter(filterMatch);
+      document.getElementById('projetos').scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
     <div className="app-container">
@@ -379,7 +455,7 @@ function Home({ theme, toggleTheme }) {
           <h3>Stack Tecnológica</h3>
           <div className="skills-container">
             {skills.map(skill => (
-              <div key={skill.nome} className={`skill-badge-icon ${skill.classe}`} title={skill.tooltip || skill.nome}>
+              <div key={skill.nome} className={`skill-badge-icon ${skill.classe}`} title={skill.tooltip || skill.nome} onClick={() => handleSkillClick(skill.nome)}>
                 <img src={skill.icon} alt={skill.nome} />
                 <span>{skill.nome}</span>
                 {skill.tooltip && <span className="tooltip-text">{skill.tooltip}</span>}
@@ -461,12 +537,7 @@ function Home({ theme, toggleTheme }) {
         )}
       </main>
 
-      <footer>
-        <p>&copy; 2026 Lucas Silva | Built with React</p>
-        <div className="api-status">
-          <span>API Status: <strong>Online</strong> 🟢</span>
-        </div>
-      </footer>
+      <Footer />
     </div>
   )
 }
@@ -487,18 +558,26 @@ function App() {
       <style>{`
         /* Variáveis de Tema */
         body.light {
-          background-color: #f4f4f4;
+          background-color: #fdfdfd;
+          background-image: radial-gradient(rgba(0, 0, 0, 0.08) 1px, transparent 1px);
+          background-size: 24px 24px;
           color: #333;
           --card-bg: #fff;
           --text-color: #333;
-          --border-color: #ddd;
+          --border-color: #eaeaea;
+          --header-bg: rgba(253, 253, 253, 0.85);
+          --card-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
         }
         body.dark {
-          background-color: #1a1a1a;
+          background-color: #121212;
+          background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+          background-size: 24px 24px;
           color: #f4f4f4;
-          --card-bg: #2a2a2a;
+          --card-bg: #1e1e1e;
           --text-color: #f4f4f4;
           --border-color: #444;
+          --header-bg: rgba(18, 18, 18, 0.85);
+          --card-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
         }
 
         /* Estilos Globais Ajustados */
@@ -506,6 +585,13 @@ function App() {
           background-color: var(--card-bg);
           color: var(--text-color);
           border: 1px solid var(--border-color);
+          border-radius: 12px;
+          padding: 20px;
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+          transform: translateY(-8px);
+          box-shadow: var(--card-shadow);
         }
 
         .card-footer {
@@ -564,13 +650,64 @@ function App() {
         /* Theme Toggle */
         .theme-btn { background: none; border: none; font-size: 1.5rem; cursor: pointer; padding: 0; }
 
-        /* Footer API */
-        .api-status { margin-top: 10px; font-size: 0.9rem; opacity: 0.8; }
+        /* Footer Styles */
+        .site-footer {
+          margin-top: 60px;
+          padding: 40px 20px 20px;
+          border-top: 1px solid var(--border-color);
+          text-align: center;
+        }
+        .footer-content {
+          display: flex; flex-direction: column; align-items: center; gap: 20px; margin-bottom: 20px;
+        }
+        @media(min-width: 768px) {
+          .footer-content { flex-direction: row; justify-content: space-between; text-align: left; }
+        }
+        .built-with { font-size: 0.85rem; opacity: 0.7; margin-top: 5px; }
+        .footer-links { display: flex; gap: 15px; }
+        .footer-links a { color: var(--text-color); text-decoration: none; font-weight: bold; transition: color 0.3s; }
+        .footer-links a:hover { color: #646cff; }
+        .api-status {
+          font-size: 0.85rem; opacity: 0.8; display: inline-block;
+          padding: 5px 15px; background: var(--card-bg);
+          border: 1px solid var(--border-color); border-radius: 20px;
+          margin-top: 10px;
+        }
         
         /* Ajustes de Header para o botão */
         nav ul { list-style: none; padding: 0; margin: 0; }
         nav a { color: inherit; text-decoration: none; }
         nav a:hover { color: #646cff; }
+
+        /* Header Fixo e Moderno */
+        header {
+          position: sticky;
+          top: 0;
+          z-index: 1000;
+          background: var(--header-bg);
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
+          border-bottom: 1px solid var(--border-color);
+          padding: 15px 20px;
+          margin-bottom: 40px;
+          border-radius: 0 0 16px 16px;
+          box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+        }
+        nav { display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto; }
+        nav h1 { margin: 0; font-size: 1.6rem; }
+        .dot-dev { color: #646cff; }
+
+        /* Seção Intro (Hero) mais chamativa */
+        #intro { text-align: center; padding: 60px 20px; }
+        .typing-effect {
+          font-size: 3.5rem;
+          font-weight: 800;
+          background: linear-gradient(135deg, #646cff 0%, #ff64d4 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          margin-bottom: 15px;
+        }
+        #intro p { font-size: 1.2rem; opacity: 0.8; max-width: 600px; margin: 0 auto 20px; line-height: 1.6; }
 
         /* Demo Modal Styles */
         .demo-btn {
@@ -631,7 +768,7 @@ function App() {
           background: #000; display: flex; align-items: center; justify-content: center;
           animation: fadeIn 0.5s ease-in-out; overflow: hidden;
         }
-        .demo-screen img { width: 100%; height: 100%; object-fit: cover; opacity: 1; filter: none; }
+        .demo-screen img { width: 100%; height: 100%; object-fit: contain; opacity: 1; filter: none; }
         
         .system-overlay { position: absolute; top: 15px; right: 15px; z-index: 10; pointer-events: none; }
         .system-badge { background: rgba(39, 201, 63, 0.9); color: #000; padding: 6px 12px; border-radius: 20px; font-weight: bold; font-size: 0.8rem; box-shadow: 0 4px 15px rgba(0,0,0,0.5); backdrop-filter: blur(4px); }
