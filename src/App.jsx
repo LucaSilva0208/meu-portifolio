@@ -139,6 +139,14 @@ const projetos = [
   }
 ];
 
+const exerciciosC = [
+  { nome: "Arvore-de-busca", link: "https://github.com/LucaSilva0208/Arvore-de-busca.git" },
+  { nome: "Calculo-de-ferraduras", link: "https://github.com/LucaSilva0208/Calculo-de-ferraduras.git" },
+  { nome: "Calculo-de-Variável", link: "https://github.com/LucaSilva0208/Calculo-de-Variavel.git" },
+  { nome: "Exercicio-bolha", link: "https://github.com/LucaSilva0208/Exercicio-bolha.git" },
+  { nome: "Exercicio-Mega-Sena", link: "https://github.com/LucaSilva0208/Exercicio-Mega-Sena.git" }
+].sort((a, b) => a.nome.localeCompare(b.nome));
+
 const skills = [
   { nome: "C", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg", classe: "c-skill" },
   { nome: "Java", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg", classe: "java-skill", tooltip: "Praticando POO e em breve APIs REST" },
@@ -313,7 +321,7 @@ function ProjectDetails({ theme, toggleTheme }) {
       <header>
         <nav>
           <Link to="/"><h1>Lucas Silva<span className="dot-dev">.dev</span></h1></Link>
-          <ul style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+          <ul className="nav-links">
             <li><Link to="/">Voltar para Home</Link></li>
             <button onClick={toggleTheme} className="theme-btn">
               {theme === 'light' ? '🌙' : '☀️'}
@@ -332,7 +340,9 @@ function ProjectDetails({ theme, toggleTheme }) {
           <p><strong>Resumo:</strong> {projeto.desc}</p>
           
           <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginBottom: '10px' }}>
-            <a href={projeto.repo} target="_blank" rel="noopener noreferrer" className="repo-link">Ver Código no GitHub &rarr;</a>
+            {projeto.repo && (
+              <a href={projeto.repo} target="_blank" rel="noopener noreferrer" className="repo-link">Ver Código no GitHub &rarr;</a>
+            )}
             {projeto.liveLink && (
               <a href={projeto.liveLink} target="_blank" rel="noopener noreferrer" className="repo-link" style={{ backgroundColor: '#646cff', color: '#fff', borderColor: '#646cff' }}>Acessar Aplicação &rarr;</a>
             )}
@@ -376,7 +386,9 @@ function ProjectDetails({ theme, toggleTheme }) {
           <div className="lessons-card">{projeto.lessons}</div>
 
           <div style={{ marginTop: '20px', display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-            <a href={projeto.repo} target="_blank" rel="noopener noreferrer" className="repo-link" style={{ display: 'inline-block' }}>Ver Código no GitHub &rarr;</a>
+            {projeto.repo && (
+              <a href={projeto.repo} target="_blank" rel="noopener noreferrer" className="repo-link" style={{ display: 'inline-block' }}>Ver Código no GitHub &rarr;</a>
+            )}
             {projeto.liveLink && (
               <a href={projeto.liveLink} target="_blank" rel="noopener noreferrer" className="repo-link" style={{ display: 'inline-block', backgroundColor: '#646cff', color: '#fff', borderColor: '#646cff' }}>Acessar Aplicação &rarr;</a>
             )}
@@ -406,6 +418,11 @@ function Home({ theme, toggleTheme }) {
   const filters = ['Todos', 'Java', 'React', 'Python', 'JavaScript', 'Node.js'];
 
   const handleSkillClick = (skillName) => {
+    if (skillName.toLowerCase() === 'c') {
+      document.getElementById('exercicios').scrollIntoView({ behavior: 'smooth' });
+      return;
+    }
+
     // Verifica se a tecnologia clicada possui um filtro correspondente nos projetos
     const filterMatch = filters.find(f => f.toLowerCase() === skillName.toLowerCase());
     if (filterMatch) {
@@ -419,11 +436,12 @@ function Home({ theme, toggleTheme }) {
       <header>
         <nav>
           <h1>Lucas Silva<span className="dot-dev">.dev</span></h1>
-          <ul style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+          <ul className="nav-links">
             <li><a href="#sobre">Sobre</a></li>
             <li><a href="#skills">Techs</a></li>
             <li><a href="#projetos">Projetos</a></li>
             <li><a href="#timeline">Jornada</a></li>
+            <li><a href="#exercicios">Exercícios</a></li>
             <button onClick={toggleTheme} className="theme-btn">
               {theme === 'light' ? '🌙' : '☀️'}
             </button>
@@ -510,6 +528,24 @@ function Home({ theme, toggleTheme }) {
               </div>
             ))}
             {/* Linha vertical conectora */}
+            <div className="timeline-line"></div>
+          </div>
+        </section>
+
+        <section id="exercicios">
+          <h3>Exercícios em C</h3>
+          <div className="timeline">
+            {exerciciosC.map((ex, index) => (
+              <div key={index} className="timeline-item">
+                <div className="timeline-dot"></div>
+                <div className="timeline-content">
+                  <a href={ex.link} target="_blank" rel="noopener noreferrer" className="exercise-link">
+                    <h4>{ex.nome}</h4>
+                    <p>Ver código no GitHub &rarr;</p>
+                  </a>
+                </div>
+              </div>
+            ))}
             <div className="timeline-line"></div>
           </div>
         </section>
@@ -638,6 +674,15 @@ function App() {
         .skill-badge-icon:hover { transform: translateY(-5px); }
         
         /* Regra específica Java */
+        .nav-links {
+          display: flex;
+          align-items: center;
+          gap: 20px;
+          list-style: none;
+          padding: 0;
+          margin: 0;
+        }
+
         .java-skill:hover { border-color: #4caf50; }
         .tooltip-text {
           visibility: hidden;
@@ -666,6 +711,12 @@ function App() {
         
         /* Mockups */
         .project-mockup { width: 100%; height: 150px; object-fit: cover; border-radius: 8px; margin-bottom: 15px; }
+
+        .projects-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          gap: 20px;
+        }
 
         /* Theme Toggle */
         .theme-btn { background: none; border: none; font-size: 1.5rem; cursor: pointer; padding: 0; }
@@ -819,8 +870,8 @@ function App() {
         .about-text { padding: 30px; font-size: 1.1rem; line-height: 1.8; }
         @media(min-width: 768px) {
           .about-card { flex-direction: row; }
-          .about-image-container { width: 40%; height: auto; border-bottom: none; border-right: 1px solid var(--border-color); }
-          .about-text { width: 60%; padding: 40px; }
+          .about-image-container { width: 50%; height: auto; border-bottom: none; border-right: 1px solid var(--border-color); }
+          .about-text { width: 50%; padding: 40px; }
         }
 
         /* Novos Estilos */
@@ -870,6 +921,125 @@ function App() {
           border-radius: 4px;
           font-style: italic;
           margin-bottom: 20px;
+        }
+
+        /* Links de Exercícios (Estilo Timeline) */
+        .exercise-link {
+          display: block;
+          text-decoration: none;
+          color: inherit;
+          background: var(--card-bg);
+          padding: 15px 20px;
+          border-radius: 8px;
+          border: 1px solid var(--border-color);
+          transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+        }
+        .exercise-link:hover {
+          transform: translateX(10px);
+          border-color: #646cff;
+          box-shadow: var(--card-shadow);
+        }
+        .exercise-link h4 {
+          margin: 0 0 5px 0;
+          color: #646cff;
+        }
+        .exercise-link p {
+          margin: 0;
+          font-size: 0.9rem;
+          opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+          /* Header & Nav */
+          header {
+            border-radius: 0;
+          }
+          nav {
+            flex-direction: column;
+            gap: 20px;
+          }
+          .nav-links {
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px 15px;
+          }
+
+          /* Typography */
+          .typing-effect {
+            font-size: 2.5rem;
+            line-height: 1.2;
+          }
+          #intro p {
+            font-size: 1.1rem;
+          }
+          main h1[style*="font-size: 2.5rem"] {
+            font-size: 2rem !important;
+          }
+
+          /* Layout */
+          .timeline {
+            padding-left: 10px;
+            margin-left: 10px;
+          }
+          .timeline-dot {
+            left: -21px;
+          }
+          
+          /* Project Details Specific */
+          .endpoint-block {
+            flex-wrap: wrap;
+            gap: 5px;
+          }
+          .desc-comment {
+            margin-left: 0;
+            width: 100%;
+            padding-left: 0;
+            color: #888;
+          }
+
+          /* Demo Modal on Mobile */
+          .demo-window {
+            width: 100%;
+            height: 100%;
+            border-radius: 0;
+            border: none;
+          }
+        }
+
+        /* NOVO BREAKPOINT ESPECÍFICO PARA SMARTPHONES (320px a 480px) */
+        @media (max-width: 480px) {
+          /* Reduz fontes grandes para caber na tela de 360px */
+          .typing-effect {
+            font-size: 1.8rem;
+          }
+          main h1[style*="font-size: 2.5rem"] {
+            font-size: 1.6rem !important;
+          }
+          #intro p {
+            font-size: 1rem;
+          }
+          
+          /* Força o grid de projetos a 1 coluna para evitar scroll horizontal (overflow) */
+          .projects-grid {
+            grid-template-columns: 1fr;
+          }
+          
+          /* Ajusta as proporções dos botões e cards menores */
+          .skill-badge-icon {
+            width: 80px;
+            padding: 10px;
+          }
+          .skill-badge-icon img {
+            width: 30px;
+            height: 30px;
+          }
+          .about-text {
+            padding: 20px;
+            font-size: 1rem;
+          }
+          .achievement-badge {
+            width: 100%;
+          }
         }
       `}</style>
       <BrowserRouter>
