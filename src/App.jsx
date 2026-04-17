@@ -284,7 +284,7 @@ function Footer() {
         <div className="footer-links">
           <a href="https://github.com/LucaSilva0208" target="_blank" rel="noopener noreferrer">GitHub</a>
           <a href="https://www.linkedin.com/in/lucas-silva-6a18b037b" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-          <a href="mailto:l.silvapjf@gmail.com">Contato</a>
+          <a href="mailto:contato@dev-lucas.com">Contato</a>
         </div>
       </div>
       <div className="api-status">
@@ -481,7 +481,7 @@ function Home({ theme, toggleTheme }) {
                 E para quebrar o gelo: quando não estou programando, gosto de aproveitar meu tempo livre jogando videogame, lendo livros de fantasia, tocando violão, dando passeios e valorizando bons momentos com a minha família! 🎮🎸📚
               </p>
               <div style={{ marginTop: '25px' }}>
-                <a href="/prints/cartao-com-dados.png" download="Lucas_Silva_Cartao_Apresentacao.png" className="demo-btn" style={{ display: 'inline-block' }}>
+              <a href="/prints/meu-cartao.png" download="Meu_Cartao_Lucas.png" className="demo-btn" style={{ display: 'inline-block' }}>
                   📥 Baixar Cartão de Visitas
                 </a>
               </div>
